@@ -33,6 +33,7 @@ private:
 private:
 	std::map<char, Action>					mKeyBinding;
 	std::map<Action, Command>				mActionBinding;
+	std::map<char, bool>					mKeyFlag;
 #pragma endregion
 
 

@@ -42,6 +42,11 @@ Player::Player()
 	// Set initial action bindings
 	initializeActions();
 
+	for (auto pair : mKeyBinding)
+	{
+		mKeyFlag[pair.first] = false;
+	}
+
 	// Assign all categories to player's aircraft
 	for (auto& pair : mActionBinding)
 		pair.second.category = Category::PlayerAircraft;
@@ -51,9 +56,23 @@ void Player::handleEvent(CommandQueue& commands)
 {
 	for (auto pair : mKeyBinding)
 	{
-		if (GetAsyncKeyState(pair.first) & 0x8000 && !isRealtimeAction(pair.second))
+		if (!isRealtimeAction(pair.second))
 		{
-			commands.push(mActionBinding[pair.second]);
+			if (mKeyFlag[pair.first])
+			{
+				if (!GetAsyncKeyState(pair.first))
+				{
+					mKeyFlag[pair.first] = false;
+				}
+			}
+			else
+			{
+				if (GetAsyncKeyState(pair.first) & 0x8000)
+				{
+					mKeyFlag[pair.first] = true;
+					commands.push(mActionBinding[pair.second]);
+				}
+			}
 		}
 	}
 }
