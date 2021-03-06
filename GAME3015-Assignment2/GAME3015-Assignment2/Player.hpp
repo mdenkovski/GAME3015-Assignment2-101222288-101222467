@@ -1,6 +1,5 @@
 #pragma once
 #include "Command.hpp"
-#include <SFML/Window/Event.hpp>
 #include <map>
 
 class CommandQueue;

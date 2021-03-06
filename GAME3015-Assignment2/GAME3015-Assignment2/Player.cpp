@@ -12,8 +12,8 @@
 using namespace DirectX;
 struct AircraftMover
 {
-	AircraftMover(float vx, float vy)
-		: velocity(vx, vy)
+	AircraftMover(float vx, float vy, float vz)
+		: velocity(vx, vy, vz)
 	{
 	}
 
@@ -22,7 +22,7 @@ struct AircraftMover
 		aircraft.accelerate(velocity);
 	}
 
-	XMFLOAT2 velocity;
+	XMFLOAT3 velocity;
 };
 
 Player::Player()
