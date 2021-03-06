@@ -91,8 +91,6 @@ void World::buildScene()
 
 void World::adaptPlayerPosition()
 {
-	
-
 	// Keep player's position inside the screen bounds, at least borderDistance units from the border
 	//sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
 	const float borderDistance = 100.f;

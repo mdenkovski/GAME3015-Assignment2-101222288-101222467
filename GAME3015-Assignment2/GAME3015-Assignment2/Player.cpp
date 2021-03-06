@@ -49,14 +49,20 @@ Player::Player()
 
 void Player::handleEvent(CommandQueue& commands)
 {
-
+	for (auto pair : mKeyBinding)
+	{
+		if (GetAsyncKeyState(pair.first) & 0x8000 && !isRealtimeAction(pair.second))
+		{
+			commands.push(mActionBinding[pair.second]);
+		}
+	}
 }
 
 void Player::handleRealtimeInput(CommandQueue& commands)
 {
 	for (auto pair : mKeyBinding)
 	{
-		if (GetAsyncKeyState(pair.first) & 0x8000)
+		if (GetAsyncKeyState(pair.first) & 0x8000 && isRealtimeAction(pair.second))
 		{
 			commands.push(mActionBinding[pair.second]);
 		}
