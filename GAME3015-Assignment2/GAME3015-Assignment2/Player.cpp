@@ -62,14 +62,14 @@ void Player::handleEvent(CommandQueue& commands)
 			{
 				if (!GetAsyncKeyState(pair.first))
 				{
-					mKeyFlag[pair.first] = false;
+					mKeyFlag[pair.first] = false; // RELEASED
 				}
 			}
 			else
 			{
 				if (GetAsyncKeyState(pair.first) & 0x8000)
 				{
-					mKeyFlag[pair.first] = true;
+					mKeyFlag[pair.first] = true; // PRESSED
 					commands.push(mActionBinding[pair.second]);
 				}
 			}
@@ -83,7 +83,7 @@ void Player::handleRealtimeInput(CommandQueue& commands)
 	{
 		if (GetAsyncKeyState(pair.first) & 0x8000 && isRealtimeAction(pair.second))
 		{
-			commands.push(mActionBinding[pair.second]);
+			commands.push(mActionBinding[pair.second]); // HOLDING DOWN
 		}
 	}
 }
