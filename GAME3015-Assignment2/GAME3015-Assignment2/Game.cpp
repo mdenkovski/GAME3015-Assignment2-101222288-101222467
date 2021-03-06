@@ -41,7 +41,8 @@ bool Game::Initialize()
 	BuildRenderItems();
 	BuildFrameResources();
 	BuildPSOs();
-
+	mPlayer = Player();
+	
 	// Execute the initialization commands.
 	ThrowIfFailed(mCommandList->Close());
 	ID3D12CommandList* cmdsLists[] = { mCommandList.Get() };
@@ -66,9 +67,11 @@ void Game::OnResize()
 
 void Game::Update(const GameTimer& gt)
 {
+	ProcessInput();
 	OnKeyboardInput(gt);
 	mWorld.update(gt);
 	//UpdateCamera(gt);
+
 
 	// Cycle through the circular frame resource array.
 	mCurrFrameResourceIndex = (mCurrFrameResourceIndex + 1) % gNumFrameResources;
@@ -210,7 +213,7 @@ void Game::OnKeyboardInput(const GameTimer& gt)
 	XMFLOAT3  oppositef3(-1, -1, -1);
 	XMVECTOR opposite = XMLoadFloat3(&oppositef3);
 
-	if (GetAsyncKeyState('W') & 0x8000)
+	/*if (GetAsyncKeyState('W') & 0x8000)
 	{
 		bool hit = false;
 
@@ -247,7 +250,7 @@ void Game::OnKeyboardInput(const GameTimer& gt)
 		{
 			mCamera.Strafe(10.0f * dt);
 		}
-	}
+	}*/
 
 
 	mCamera.UpdateViewMatrix();

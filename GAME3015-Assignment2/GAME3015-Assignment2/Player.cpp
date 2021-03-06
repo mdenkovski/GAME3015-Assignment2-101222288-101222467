@@ -66,21 +66,21 @@ void Player::handleRealtimeInput(CommandQueue& commands)
 	{
 		Command moveDown;
 		moveDown.category = Category::PlayerAircraft;
-		moveDown.action = derivedAction<Aircraft>(AircraftMover(-playerSpeed, 0.f, 0.0f));
+		moveDown.action = derivedAction<Aircraft>(AircraftMover(0.0f, 0.f, -playerSpeed));
 		commands.push(moveDown);
 	}
 	if (GetAsyncKeyState(VK_UP) & 0x8000)
 	{
 		Command moveUp;
 		moveUp.category = Category::PlayerAircraft;
-		moveUp.action = derivedAction<Aircraft>(AircraftMover(-playerSpeed, 0.f, 0.0f));
+		moveUp.action = derivedAction<Aircraft>(AircraftMover(0.0f, 0.f, playerSpeed));
 		commands.push(moveUp);
 	}
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{
 		Command moveRight;
 		moveRight.category = Category::PlayerAircraft;
-		moveRight.action = derivedAction<Aircraft>(AircraftMover(-playerSpeed, 0.f, 0.0f));
+		moveRight.action = derivedAction<Aircraft>(AircraftMover(playerSpeed, 0.f, 0.0f));
 		commands.push(moveRight);
 	}
 
