@@ -6,6 +6,8 @@
 #include "../../Common/Camera.h"
 #include "FrameResource.h"
 
+#include "Category.hpp"
+
 using Microsoft::WRL::ComPtr;
 using namespace DirectX;
 using namespace DirectX::PackedVector;
@@ -48,6 +50,7 @@ struct RenderItem
 };
 
 class Game;
+struct Command;
 
 class SceneNode
 {
@@ -74,6 +77,9 @@ public:
 
 	XMFLOAT4X4				getWorldTransform() const;
 	XMFLOAT4X4				getTransform() const;
+
+	void					onCommand(const Command& command, const GameTimer& gt);
+	virtual unsigned int	getCategory() const;
 
 	void					move(float x, float y, float z);
 private:

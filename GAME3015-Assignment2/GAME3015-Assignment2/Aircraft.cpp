@@ -18,6 +18,18 @@ Aircraft::Aircraft(Type type, Game* game) : Entity(game)
 	}
 }
 
+unsigned int Aircraft::getCategory() const
+{
+	switch (mType)
+	{
+	case Type::Eagle:
+		return Category::PlayerAircraft;
+
+	default:
+		return Category::EnemyAircraft;
+	}
+}
+
 void Aircraft::drawCurrent() const
 {
 	UINT objCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(ObjectConstants));
