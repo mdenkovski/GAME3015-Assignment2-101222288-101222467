@@ -7,7 +7,7 @@ World::World(Game* game)
 	, mGame(game)
 	, mPlayerAircraft(nullptr)
 	, mBackground(nullptr)
-	, mWorldBounds(-4.5, 4.5,-3.0f, 3.0f) //Left, Right, Down, Up
+	, mWorldBounds(-4.5f, 4.5f, -3.0f, 3.0f) //Left, Right, Down, Up
 	, mSpawnPosition(0.f, 0.f)
 	, mScrollSpeed(1.0f)		
 {
@@ -35,7 +35,7 @@ void World::update(const GameTimer& gt)
 
 
 
-	//mSceneGraph->update(gt);
+	/*mSceneGraph->update(gt);*/
 
 	////AirCraft Bouncing
 	//if (mPlayerAircraft->getWorldPosition().x < mWorldBounds.x
@@ -93,7 +93,9 @@ void World::adaptPlayerPosition()
 {
 	
 
-
+	// Keep player's position inside the screen bounds, at least borderDistance units from the border
+	//sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
+	const float borderDistance = 100.f;
 
 	XMFLOAT3 position = mPlayerAircraft->getWorldPosition();
 	position.x = std::max(position.x, mWorldBounds.x);
@@ -112,5 +114,5 @@ void World::adaptPlayerVelocity()
 		mPlayerAircraft->setVelocity(velocity.x / std::sqrt(2.f), velocity.y / std::sqrt(2.f), velocity.z / std::sqrt(2.f));
 
 	// Add scrolling velocity
-	//mPlayerAircraft->accelerate(0, 0, 0);
+	//mPlayerAircraft->accelerate(mScrollSpeed, 0, 0);
 }
