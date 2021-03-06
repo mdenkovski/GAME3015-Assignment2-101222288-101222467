@@ -25,17 +25,17 @@ void World::update(const GameTimer& gt)
 
 #pragma region step 5
 
-	adaptPlayerVelocity();
+	//adaptPlayerVelocity();
 
-	// Regular update step, adapt position (correct if outside view)
-	mSceneGraph->update(gt);
-	adaptPlayerPosition();
+	//// Regular update step, adapt position (correct if outside view)
+	//mSceneGraph->update(gt);
+	//adaptPlayerPosition();
 
 #pragma endregion
 
 
 
-	//mSceneGraph->update(gt);
+	mSceneGraph->update(gt);
 
 	////AirCraft Bouncing
 	//if (mPlayerAircraft->getWorldPosition().x < mWorldBounds.x

@@ -8,7 +8,7 @@ class Player
 {
 public:
 	Player();
-	void					handleEvent(const sf::Event& event, CommandQueue& commands);
+	void					handleEvent(CommandQueue& commands);
 	void					handleRealtimeInput(CommandQueue& commands);
 #pragma region step 1
 	//static const float		PlayerSpeed;
@@ -20,8 +20,9 @@ public:
 		MoveDown,
 		ActionCount
 	};
-	void					assignKey(Action action, sf::Keyboard::Key key);
-	sf::Keyboard::Key		getAssignedKey(Action action) const;
+
+	void					assignKey(Action action, char key);
+	char					getAssignedKey(Action action) const;
 
 
 private:
@@ -30,11 +31,9 @@ private:
 
 
 private:
-	std::map<sf::Keyboard::Key, Action>		mKeyBinding;
+	std::map<char, Action>					mKeyBinding;
 	std::map<Action, Command>				mActionBinding;
 #pragma endregion
 
 
 };
-
-

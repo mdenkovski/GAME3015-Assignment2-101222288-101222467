@@ -1,4 +1,5 @@
 #include "World.hpp"
+#include "Player.hpp"
 
 class Game : public D3DApp
 {
@@ -14,10 +15,13 @@ private:
 	virtual void Update(const GameTimer& gt)override;
 	virtual void Draw(const GameTimer& gt)override;
 
+
+
 	virtual void OnMouseDown(WPARAM btnState, int x, int y)override;
 	virtual void OnMouseUp(WPARAM btnState, int x, int y)override;
 	virtual void OnMouseMove(WPARAM btnState, int x, int y)override;
 
+	void ProcessInput();
 	void OnKeyboardInput(const GameTimer& gt);
 	void UpdateCamera(const GameTimer& gt);
 	void AnimateMaterials(const GameTimer& gt);
@@ -80,6 +84,7 @@ public:
 	POINT mLastMousePos;
 	Camera mCamera;
 	World mWorld;
+	Player mPlayer;
 
 public:
 	ID3D12GraphicsCommandList*  getCmdList() { return mCommandList.Get(); }
