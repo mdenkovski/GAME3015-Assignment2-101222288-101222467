@@ -1,3 +1,5 @@
+#define NOMINMAX
+
 #include "World.hpp"
 
 World::World(Game* game)
@@ -13,19 +15,44 @@ World::World(Game* game)
 
 void World::update(const GameTimer& gt)
 {
-	mSceneGraph->update(gt);
+	// Scroll the world
+	//mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
+	mPlayerAircraft->setVelocity(0.0f, 0.0f, 0.0f);
 
-	//AirCraft Bouncing
-	if (mPlayerAircraft->getWorldPosition().x < mWorldBounds.x
-		|| mPlayerAircraft->getWorldPosition().x > mWorldBounds.y)
-	{
-		mPlayerAircraft->setVelocity(XMFLOAT3(mPlayerAircraft->getVelocity().x * -1.0f, 0, 0));
-	}
+	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
+	while (!mCommandQueue.isEmpty())
+		mSceneGraph->onCommand(mCommandQueue.pop(), gt);
+
+#pragma region step 5
+
+	adaptPlayerVelocity();
+
+	// Regular update step, adapt position (correct if outside view)
+	mSceneGraph->update(gt);
+	adaptPlayerPosition();
+
+#pragma endregion
+
+
+
+	//mSceneGraph->update(gt);
+
+	////AirCraft Bouncing
+	//if (mPlayerAircraft->getWorldPosition().x < mWorldBounds.x
+	//	|| mPlayerAircraft->getWorldPosition().x > mWorldBounds.y)
+	//{
+	//	mPlayerAircraft->setVelocity(XMFLOAT3(mPlayerAircraft->getVelocity().x * -1.0f, 0, 0));
+	//}
 }
 
 void World::draw()
 {
 	mSceneGraph->draw();
+}
+
+CommandQueue& World::getCommandQueue()
+{
+	return mCommandQueue;
 }
 
 void World::buildScene()
@@ -60,4 +87,32 @@ void World::buildScene()
 	mSceneGraph->attachChild(std::move(backgroundSprite));
 
 	mSceneGraph->build();
+}
+
+void World::adaptPlayerPosition()
+{
+	
+
+	// Keep player's position inside the screen bounds, at least borderDistance units from the border
+	//sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
+	const float borderDistance = 100.f;
+
+	XMFLOAT3 position = mPlayerAircraft->getWorldPosition();
+	position.x = std::max(position.x, mWorldBounds.x);
+	position.x = std::min(position.x, mWorldBounds.y);
+	position.z = std::max(position.z, mWorldBounds.z);
+	position.z = std::min(position.z, mWorldBounds.w);
+	mPlayerAircraft->setPosition(position.x, position.y, position.z);
+}
+
+void World::adaptPlayerVelocity()
+{
+	XMFLOAT3 velocity = mPlayerAircraft->getVelocity();
+
+	// If moving diagonally, reduce velocity (to have always same velocity)
+	if (velocity.x != 0.f && velocity.y != 0.f)
+		mPlayerAircraft->setVelocity(velocity.x / std::sqrt(2.f), velocity.y / std::sqrt(2.f), velocity.z / std::sqrt(2.f));
+
+	// Add scrolling velocity
+	mPlayerAircraft->accelerate(mScrollSpeed, 0, 0);
 }
