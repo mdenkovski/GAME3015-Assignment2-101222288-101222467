@@ -3,7 +3,6 @@
 #include "Category.hpp"
 
 #include "../../Common/d3dApp.h"
-#include "../../Common/MathHelper.h"
 
 #include <functional>
 #include <cassert>
