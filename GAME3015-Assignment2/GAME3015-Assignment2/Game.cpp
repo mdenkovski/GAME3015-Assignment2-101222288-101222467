@@ -68,9 +68,9 @@ void Game::OnResize()
 void Game::Update(const GameTimer& gt)
 {
 	ProcessInput();
-	OnKeyboardInput(gt);
+	//OnKeyboardInput(gt);
 	mWorld.update(gt);
-	//UpdateCamera(gt);
+	UpdateCamera(gt);
 
 
 	// Cycle through the circular frame resource array.
@@ -169,31 +169,31 @@ void Game::OnMouseUp(WPARAM btnState, int x, int y)
 
 void Game::OnMouseMove(WPARAM btnState, int x, int y)
 {
-	if ((btnState & MK_LBUTTON) != 0)
-	{
-		// Make each pixel correspond to a quarter of a degree.
-		float dx = XMConvertToRadians(0.25f * static_cast<float>(x - mLastMousePos.x));
-		float dy = XMConvertToRadians(0.25f * static_cast<float>(y - mLastMousePos.y));
+	//if ((btnState & MK_LBUTTON) != 0)
+	//{
+	//	// Make each pixel correspond to a quarter of a degree.
+	//	float dx = XMConvertToRadians(0.25f * static_cast<float>(x - mLastMousePos.x));
+	//	float dy = XMConvertToRadians(0.25f * static_cast<float>(y - mLastMousePos.y));
 
-		mCamera.Pitch(dy);
-		mCamera.RotateY(dx);
-	}
-	else if ((btnState & MK_RBUTTON) != 0)
-	{
-		// Make each pixel correspond to 0.2 unit in the scene.
-		float dx = 0.05f * static_cast<float>(x - mLastMousePos.x);
-		float dy = 0.05f * static_cast<float>(y - mLastMousePos.y);
+	//	mCamera.Pitch(dy);
+	//	mCamera.RotateY(dx);
+	//}
+	//else if ((btnState & MK_RBUTTON) != 0)
+	//{
+	//	// Make each pixel correspond to 0.2 unit in the scene.
+	//	float dx = 0.05f * static_cast<float>(x - mLastMousePos.x);
+	//	float dy = 0.05f * static_cast<float>(y - mLastMousePos.y);
 
-		//To Do
-		// Update the camera radius based on input.
-		//mRadius += dx - dy;
+	//	//To Do
+	//	// Update the camera radius based on input.
+	//	//mRadius += dx - dy;
 
-		// Restrict the radius.
-		//mRadius = MathHelper::Clamp(mRadius, 5.0f, 150.0f);
-	}
+	//	// Restrict the radius.
+	//	//mRadius = MathHelper::Clamp(mRadius, 5.0f, 150.0f);
+	//}
 
-	mLastMousePos.x = x;
-	mLastMousePos.y = y;
+	//mLastMousePos.x = x;
+	//mLastMousePos.y = y;
 }
 
 void Game::ProcessInput()
@@ -205,13 +205,13 @@ void Game::ProcessInput()
 
 void Game::OnKeyboardInput(const GameTimer& gt)
 {
-	const float dt = gt.DeltaTime();
+	/*const float dt = gt.DeltaTime();
 
 	mCamera.GetLook();
 	float tmin = 0;
 	float buffer = 0.5;
 	XMFLOAT3  oppositef3(-1, -1, -1);
-	XMVECTOR opposite = XMLoadFloat3(&oppositef3);
+	XMVECTOR opposite = XMLoadFloat3(&oppositef3);*/
 
 	/*if (GetAsyncKeyState('W') & 0x8000)
 	{
@@ -253,7 +253,7 @@ void Game::OnKeyboardInput(const GameTimer& gt)
 	}*/
 
 
-	mCamera.UpdateViewMatrix();
+	//mCamera.UpdateViewMatrix();
 }
 
 void Game::UpdateCamera(const GameTimer& gt)
@@ -270,7 +270,7 @@ void Game::UpdateCamera(const GameTimer& gt)
 
 	//XMMATRIX view = XMMatrixLookAtLH(pos, target, up);
 	//XMStoreFloat4x4(&mView, view);
-
+	mCamera.UpdateViewMatrix();
 
 }
 
