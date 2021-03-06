@@ -7,7 +7,7 @@ World::World(Game* game)
 	, mGame(game)
 	, mPlayerAircraft(nullptr)
 	, mBackground(nullptr)
-	, mWorldBounds(-1.25f, 1.25f, 200.0f, 0.0f) //Left, Right, Down, Up
+	, mWorldBounds(-4.5, 4.5,-3.0f, 3.0f) //Left, Right, Down, Up
 	, mSpawnPosition(0.f, 0.f)
 	, mScrollSpeed(1.0f)		
 {
@@ -25,17 +25,17 @@ void World::update(const GameTimer& gt)
 
 #pragma region step 5
 
-	//adaptPlayerVelocity();
+	adaptPlayerVelocity();
 
-	//// Regular update step, adapt position (correct if outside view)
-	//mSceneGraph->update(gt);
-	//adaptPlayerPosition();
+	// Regular update step, adapt position (correct if outside view)
+	mSceneGraph->update(gt);
+	adaptPlayerPosition();
 
 #pragma endregion
 
 
 
-	mSceneGraph->update(gt);
+	//mSceneGraph->update(gt);
 
 	////AirCraft Bouncing
 	//if (mPlayerAircraft->getWorldPosition().x < mWorldBounds.x
@@ -93,9 +93,7 @@ void World::adaptPlayerPosition()
 {
 	
 
-	// Keep player's position inside the screen bounds, at least borderDistance units from the border
-	//sf::FloatRect viewBounds(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
-	const float borderDistance = 100.f;
+
 
 	XMFLOAT3 position = mPlayerAircraft->getWorldPosition();
 	position.x = std::max(position.x, mWorldBounds.x);
@@ -110,9 +108,9 @@ void World::adaptPlayerVelocity()
 	XMFLOAT3 velocity = mPlayerAircraft->getVelocity();
 
 	// If moving diagonally, reduce velocity (to have always same velocity)
-	if (velocity.x != 0.f && velocity.y != 0.f)
+	if (velocity.x != 0.f && velocity.z != 0.f)
 		mPlayerAircraft->setVelocity(velocity.x / std::sqrt(2.f), velocity.y / std::sqrt(2.f), velocity.z / std::sqrt(2.f));
 
 	// Add scrolling velocity
-	mPlayerAircraft->accelerate(mScrollSpeed, 0, 0);
+	//mPlayerAircraft->accelerate(0, 0, 0);
 }
